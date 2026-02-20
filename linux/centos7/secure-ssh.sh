@@ -15,11 +15,11 @@ sudo chmod 600 /home/${1}/.ssh/authorized_keys
 sudo chown -R ${1}:${1} /home/${1}/.ssh
 
 # Blocking root ssh login
-if grep -q "^PermitRootLogin" /etc/ssh/sshd_config; then
-   sudo sed -i 's/^PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+if grep -q "^#*PermitRootLogin" /etc/ssh/sshd_config; then
+   sudo sed -i 's/^#*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
 else
-   echo "PermitRootLogin not found in /etc/ssh/sshd_config"
+   echo "PermitRootLogin not found in /etc/ssh/sshd_config" | sudo tee -a /etc/ssh/sshd_config
 fi
 
 # Restart SSH
-sudo systemctl restart sshd.service
+sudo systemctl restart ssh.service
